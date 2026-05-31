@@ -4,7 +4,7 @@ Project instructions for Claude Code. Read this before doing anything in this re
 
 ## What this project is
 
-An automated trading system for **Zerodha Kite Connect** (Indian stock market), built in Python. The owner wants a legitimate, risk-controlled algo-trading bot — built and tested in phases, not a get-rich-quick script.
+An automated trading system for **Zerodha Kite Connect** (Indian stock market), built in Node.js/TypeScript. The owner wants a legitimate, risk-controlled algo-trading bot — built and tested in phases, not a get-rich-quick script.
 
 ## Ground truths — do not violate these
 
