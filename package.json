@@ -1,0 +1,20 @@
+{
+  "name": "stockmarket-analyser-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Honest, risk-controlled algo-trading bot for Zerodha Kite Connect (Phase 1: setup & auth).",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "login": "tsx scripts/login.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "kiteconnect": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  }
+}

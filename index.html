@@ -19,10 +19,10 @@
   .nav{display:flex;align-items:center;justify-content:space-between;height:64px;}
   .brand{display:flex;align-items:center;gap:10px;font-weight:700;}
   .brand .dot{width:12px;height:12px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 0 4px rgba(22,163,74,.15);}
-  .nav-links{display:flex;gap:22px;}
-  .nav-links a{color:var(--muted);font-size:.94rem;font-weight:500;}
+  .nav-links{display:flex;gap:20px;}
+  .nav-links a{color:var(--muted);font-size:.92rem;font-weight:500;}
   .nav-links a:hover{color:var(--ink);}
-  @media(max-width:640px){.nav-links{display:none;}}
+  @media(max-width:680px){.nav-links{display:none;}}
   .hero{background:linear-gradient(180deg,#fff 0%,#eef3fb 100%);border-bottom:1px solid var(--border);}
   .hero-inner{padding:72px 0 64px;text-align:center;}
   .pill{display:inline-block;background:rgba(37,99,235,.08);color:var(--accent);border:1px solid rgba(37,99,235,.2);padding:6px 14px;border-radius:999px;font-size:.82rem;font-weight:600;margin-bottom:22px;}
@@ -37,7 +37,7 @@
   .honesty{margin-top:26px;font-size:.9rem;color:var(--muted);}
   section{padding:64px 0;}
   .section-title{font-size:1.7rem;margin:0 0 10px;letter-spacing:-.01em;}
-  .section-sub{color:var(--muted);margin:0 0 36px;max-width:640px;}
+  .section-sub{color:var(--muted);margin:0 0 36px;max-width:660px;}
   .grid{display:grid;gap:20px;}
   .grid-3{grid-template-columns:repeat(3,1fr);}
   .grid-2{grid-template-columns:repeat(2,1fr);}
@@ -68,7 +68,7 @@
   <div class="wrap nav">
     <div class="brand"><span class="dot"></span> StockMarketAnalyserBOT</div>
     <nav class="nav-links">
-      <a href="#about">About</a><a href="#how">How it works</a><a href="#risk">Risk controls</a><a href="#tech">Tech</a>
+      <a href="#about">About</a><a href="#how">How it works</a><a href="#discipline">Discipline</a><a href="#risk">Risk controls</a><a href="#tech">Tech</a>
     </nav>
   </div>
 </header>
@@ -132,7 +132,19 @@
   </div>
 </section>
 
-<section class="alt" id="risk">
+<section class="alt" id="discipline">
+  <div class="wrap">
+    <h2 class="section-title">Discipline by design</h2>
+    <p class="section-sub">The biggest real edge isn't an indicator — it's removing emotion from the loop. The bot does what most humans can't: follow the plan, every single time.</p>
+    <div class="grid grid-3">
+      <div class="card"><span class="icon">🤖</span><h3>No fear, greed, or revenge</h3><p>Trades execute from rules decided when you were calm — so panic exits, FOMO entries, and "win it back" trades never get a chance.</p></div>
+      <div class="card"><span class="icon">🛟</span><h3>Fails safely, not perfectly</h3><p>No bot is error-free. So on any error or surprise it halts, alerts, and loses small — bounded by the ≤1% and kill-switch limits. No single failure can ruin you.</p></div>
+      <div class="card"><span class="icon">🎛️</span><h3>You stay in command</h3><p>Emotional overrides are removed; safety controls are not. An emergency stop and live monitoring are always in your hands — you supervise, the bot executes.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="risk">
   <div class="wrap">
     <h2 class="section-title">Risk controls (non-negotiable)</h2>
     <p class="section-sub">Every live strategy must include these — the difference between learning and blowing up.</p>
@@ -145,7 +157,7 @@
   </div>
 </section>
 
-<section id="tech">
+<section class="alt" id="tech">
   <div class="wrap">
     <h2 class="section-title">Tech stack</h2>
     <p class="section-sub">Built in Node.js + TypeScript, using Zerodha's official client library.</p>

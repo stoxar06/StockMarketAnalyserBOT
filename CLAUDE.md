@@ -14,11 +14,13 @@ An automated trading system for **Zerodha Kite Connect** (Indian stock market), 
 
 ## Tech stack
 
-- Python 3.11+
-- `kiteconnect` (official Zerodha library)
-- `pandas`, `numpy` for analysis
-- SQLite for historical data + trade logs
-- `python-dotenv` for secrets
+- Node.js (LTS 20+) + TypeScript (strict mode)
+- `kiteconnect` (official Zerodha JS/TS client)
+- `technicalindicators` for indicators; plain typed arrays for data
+- `better-sqlite3` for historical data + trade logs
+- Money in integer paise (or `decimal.js`) — never raw floats for costs/P&L
+- `dotenv` for secrets; `vitest` for tests
+- Product: equity cash, CNC (delivery) for the first strategy
 
 ## Build order (phases)
 
