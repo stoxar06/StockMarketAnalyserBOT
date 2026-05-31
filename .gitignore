@@ -1,0 +1,17 @@
+# secrets & local data — never commit
+.env
+.env.*
+*.db
+
+# logs
+logs/
+*.log
+
+# node
+node_modules/
+dist/
+build/
+
+# os / editor
+.DS_Store
+.vscode/
