@@ -3,7 +3,9 @@
 .env.*
 !.env.example
 *.db
-data/session.json
+*.db-wal
+*.db-shm
+data/
 
 # logs
 logs/

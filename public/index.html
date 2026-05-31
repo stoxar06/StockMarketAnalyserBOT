@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StockMarketAnalyserBOT — Dashboard</title>
+<script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+  :root{--bg:#f6f8fb;--surface:#fff;--ink:#0f172a;--muted:#475569;--accent:#2563eb;--green:#16a34a;--red:#dc2626;--border:#e2e8f0;--shadow:0 1px 3px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.06);}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px;}
+  header{background:#fff;border-bottom:1px solid var(--border);}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;}
+  .dot{width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(22,163,74,.15);}
+  .chip{font-size:.82rem;color:var(--muted);}
+  .pill{display:inline-block;background:#fef3c7;color:#92400e;border:1px solid #fde68a;padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:600;}
+  .banner{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:10px;padding:10px 14px;margin:18px 0;font-size:.9rem;}
+  h1{font-size:1.4rem;margin:22px 0 4px;}
+  .sub{color:var(--muted);margin:0 0 18px;font-size:.95rem;}
+  .cards{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:22px;}
+  @media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr);}}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow);}
+  .card .label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .card .val{font-size:1.25rem;font-weight:700;margin-top:4px;}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-bottom:22px;}
+  .panel h2{font-size:1.05rem;margin:0 0 12px;}
+  #chart{height:380px;}
+  table{width:100%;border-collapse:collapse;font-size:.92rem;}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border);}
+  th{color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;}
+  .buy{color:var(--accent);font-weight:600;} .sell{color:var(--ink);font-weight:600;}
+  .pos{color:var(--green);font-weight:600;} .neg{color:var(--red);font-weight:600;}
+  footer{color:var(--muted);font-size:.82rem;padding:24px 0;}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <div class="brand"><span class="dot"></span> StockMarketAnalyserBOT — Dashboard</div>
+  <div><span class="chip" id="profile">…</span> &nbsp; <span class="pill">SAMPLE DATA</span></div>
+</div></header>
+
+<div class="wrap">
+  <div class="banner">⚠️ Showing <strong>sample data</strong> for layout preview. This switches to your real Kite / SQLite data once Phase 2 (data) and your API keys are in place. Read-only · localhost only.</div>
+
+  <h1>Strategy overview</h1>
+  <p class="sub" id="strategy">…</p>
+  <div class="cards" id="cards"></div>
+
+  <div class="panel">
+    <h2>Price (candles)</h2>
+    <div id="chart"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Recent trades</h2>
+    <table>
+      <thead><tr><th>Date</th><th>Symbol</th><th>Side</th><th>Qty</th><th>Price</th><th>P&amp;L</th></tr></thead>
+      <tbody id="trades"></tbody>
+    </table>
+  </div>
+
+  <footer>Sample dashboard · data served read-only from localhost · not investment advice.</footer>
+</div>
+
+<script>
+async function getJSON(u){ const r = await fetch(u); return r.json(); }
+function fmt(n){ return Number(n).toLocaleString('en-IN',{maximumFractionDigits:2}); }
+
+(async function(){
+  try { const p = await getJSON('/api/profile'); document.getElementById('profile').textContent = p.user_name + ' (' + p.user_id + ')'; } catch(e){}
+
+  const bt = (await getJSON('/api/backtest')).summary;
+  document.getElementById('strategy').textContent = bt.strategy;
+  const cards = [
+    ['Trades', bt.trades],
+    ['Win rate', bt.winRatePct + '%'],
+    ['Profit factor', bt.profitFactor],
+    ['Max drawdown', bt.maxDrawdownPct + '%'],
+    ['Total return', bt.totalReturnPct + '%'],
+    ['Costs incl.', 'yes'],
+  ];
+  document.getElementById('cards').innerHTML = cards.map(c => `<div class="card"><div class="label">${c[0]}</div><div class="val">${c[1]}</div></div>`).join('');
+
+  const cd = await getJSON('/api/candles');
+  const chart = LightweightCharts.createChart(document.getElementById('chart'), {
+    layout:{ background:{ color:'#fff' }, textColor:'#0f172a' },
+    grid:{ vertLines:{ color:'#eef2f7' }, horzLines:{ color:'#eef2f7' } },
+    rightPriceScale:{ borderColor:'#e2e8f0' },
+    timeScale:{ borderColor:'#e2e8f0' },
+    autoSize:true,
+  });
+  const series = chart.addCandlestickSeries({ upColor:'#16a34a', downColor:'#dc2626', borderVisible:false, wickUpColor:'#16a34a', wickDownColor:'#dc2626' });
+  series.setData(cd.candles);
+  chart.timeScale().fitContent();
+
+  const tr = (await getJSON('/api/trades')).trades;
+  document.getElementById('trades').innerHTML = tr.map(t => `<tr>
+    <td>${t.date}</td><td>${t.symbol}</td>
+    <td class="${t.side==='BUY'?'buy':'sell'}">${t.side}</td>
+    <td>${t.qty}</td><td>₹${fmt(t.price)}</td>
+    <td class="${t.pnl>0?'pos':t.pnl<0?'neg':''}">${t.pnl ? ('₹'+fmt(t.pnl)) : '—'}</td>
+  </tr>`).join('');
+})();
+</script>
+</body>
+</html>
